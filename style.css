@@ -1,0 +1,14 @@
+.panel {
+    float: right;
+    width: 25vw;
+}
+
+.container {
+    width: 100%;
+}
+
+.container-container {
+    border: 1px solid #000000;
+    padding: 0px;
+    width: 75vw;
+}
