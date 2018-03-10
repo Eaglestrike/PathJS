@@ -1,5 +1,6 @@
 var LENGTH_LINEAR_EXTRAPOLATION_FT = 10;
 
+//robot exports
 document.getElementById('export-to-robot').addEventListener('click', function() {
     var numPoints = parseInt(document.getElementById('export-to-robot-num-points').value);
     if (numPoints < 10) {
@@ -68,4 +69,40 @@ document.getElementById('export-to-robot').addEventListener('click', function() 
     saveAs(blob, filename+".114path");
 });
 
-  
+// export and imports to re-edit paths
+// TODO implement checksums for pixel ratios and which bg image is being used 
+function serializePath() {
+    output = {};
+    output.origin = origin.position();
+    output.points = pointsList.map(function (pt) {return [pt.x, pt.y];});
+    return output;
+}
+
+function importPath(obj) {
+    if (obj.origin && obj.origin.x && obj.origin.y) {
+        origin.position(obj.origin);
+        updateOriginAxis();
+    }
+
+    if (obj.points && obj.points[0]) {
+        while (pointsList.length > 0) {
+            pointsList[pointsList.length - 1].delete();
+        }
+        for (var i = 0; i < obj.points.length; i++) {
+            pointsList.push(new PathPoint(obj.points[i][0], obj.points[i][1], pointsList.length, drawPathWrapper));
+        }
+        rerenderControlPanel();
+        pointsList.forEach(function(point) {point.setCoordinatesFromUserSpace(); pointsLayer.add(point.kPoint);});
+        pointsLayer.draw();
+        pointsList[0].updateFunction();
+    }
+}
+var jsonPathArea = document.getElementById('path-import-export-text');
+
+document.getElementById('export-path-to-json').addEventListener('click', function() {
+    jsonPathArea.value = JSON.stringify(serializePath());
+});
+
+document.getElementById('import-path-from-json').addEventListener('click', function() {
+    importPath(JSON.parse(jsonPathArea.value));
+});

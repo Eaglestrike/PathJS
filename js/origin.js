@@ -28,13 +28,15 @@ originLayer.add(origin);
 stage.add(originLayer);
 originLayer.moveToTop();
 
-origin.on('dragstart dragmove dragend', function() {
+var updateOriginAxis = function() {
     xAxis.points([0, origin.y(), stageWidth, origin.y()]);
     yAxis.points([origin.x(), 0, origin.x(), stageHeight]);
     pointsList.forEach(function (pathPoint) {
         pathPoint.updateCoordinatesFromCanvasSpace();
     });
-});
+}
+
+origin.on('dragstart dragmove dragend', updateOriginAxis);
 
 function canvasPixelsToOriginFeet(obj) {
     obj.x -= origin.getX();

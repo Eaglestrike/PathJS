@@ -34,7 +34,6 @@ pathLayer.add(thiccPath);
 pathLayer.add(endDerivative);
 
 function drawPath(pts) {
-    console.log("asd")
     if (pts.length < 2) {
         linePath.points([]);
         thiccPath.points([]);
@@ -77,6 +76,5 @@ function drawPath(pts) {
 }
 
 function drawPathWrapper() {
-    console.log(pointsList.map(function(pathPoint) { return pathPoint.kPoint; }))
     drawPath(pointsList.map(function(pathPoint) { return pathPoint.kPoint; }));
 }

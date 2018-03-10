@@ -62,9 +62,8 @@ function PathPoint(initialX, initialY, initialIndex, updateFunction) {
         this.kPoint.destroy();
         pointsLayer.draw();
         // re-calculate index for all above this
-        // 
         for (var i = this.index; i < pointsList.length; i++) {
-            pointsList[i].index--;
+            pointsList[i].index = i;
             pointsList[i].updateDisplayedIndex();
         }
         rerenderControlPanel();
@@ -87,7 +86,6 @@ function PathPoint(initialX, initialY, initialIndex, updateFunction) {
     });
     
     this.setCoordinatesFromUserSpace = function() {
-        console.log("daksldasd")
         var xtemp = parseFloat(this.xCoordInput.value);
         var ytemp = parseFloat(this.yCoordInput.value);
         if (isNaN(xtemp) || isNaN(ytemp)) {
