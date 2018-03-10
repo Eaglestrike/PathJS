@@ -1,14 +1,48 @@
+body {
+    background-color: #aaaaff;
+}
+
+.page {
+    width: 100%;
+    display: flex;
+}
+
+.coordinate-input {
+    width: 4em;
+}
+/* 
+.point-number-display {
+} */
+
+
 .panel {
-    float: right;
-    width: 25vw;
+    font-family: sans-serif;
+    color: #111;
+    padding: 10px;
 }
 
 .container {
+    color: #111;
     width: 100%;
 }
 
 .container-container {
     border: 1px solid #000000;
     padding: 0px;
-    width: 75vw;
+    width: 100%;
+}
+
+.point-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    border: 1px solid #111;
+    background-color: #eee;
+    padding: 5px;
+}
+
+.point-number-display {
+    display: block;
+    width: 10px;
 }
