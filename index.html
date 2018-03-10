@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <head>
     <title>PathJS | Team 114</title>
-    <link rel="stylesheet" type="text/css" href="./normalize.css">
-    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="stylesheet" type="text/css" href="./css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
 <body>
 <div class="page" id="page">
@@ -14,6 +14,9 @@
     <div id="panel"> 
         <div class="panel" >
             <div class="main-cointrol">
+                <input id="path-name-input" type="text" placeholder="path name" value="path">
+                <input id="export-to-robot-num-points" type="text" placeholder="# of path points" value="500">
+                <button id="export-to-robot">Export For Robot</button>
                 <button id="add-point">Add Point</button>
             </div>
             <div id="points-list">
@@ -32,10 +35,13 @@
 </div>
     
     <!-- Scripts -->
-    <script src="./dependencies/konva.min.js"></script>
-    <script src="./dependencies/smooth.js"></script>
-    <script src="./main.js"></script>
-    <script src="./origin.js"></script>
-    <script src="./interpolation.js"></script>
-    <script src="./PathPoint.js"></script>
+    <!-- Load order matters! -->
+    <script src="./js/dependencies/konva.min.js"></script>
+    <script src="./js/dependencies/smooth.js"></script>
+    <script src="./js/dependencies/FileSaver.min.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/interpolation.js"></script>
+    <script src="./js/origin.js"></script>
+    <script src="./js/PathPoint.js"></script>
+    <script src="./js/export.js"></script>
 </body>

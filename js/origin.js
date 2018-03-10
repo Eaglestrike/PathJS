@@ -26,6 +26,8 @@ originLayer.add(yAxis);
 originLayer.add(xAxis);
 originLayer.add(origin);
 stage.add(originLayer);
+originLayer.moveToTop();
+
 origin.on('dragstart dragmove dragend', function() {
     xAxis.points([0, origin.y(), stageWidth, origin.y()]);
     yAxis.points([origin.x(), 0, origin.x(), stageHeight]);

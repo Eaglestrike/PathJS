@@ -3,7 +3,7 @@ const IMAGE_WIDTH_FEET = 24;
 const PIXELS_PER_FOOT = 100;
 const ROBOT_WIDTH_FEET = 4;
 const PATH_SAMPLES_PER_SEGMENT = 10;
-const IMAGE_SRC = "./field1.png";
+const IMAGE_SRC = "./img/field1.png";
 var stageWidth = IMAGE_WIDTH_FEET * PIXELS_PER_FOOT;
 var stageHeight = IMAGE_WIDTH_FEET * PIXELS_PER_FOOT; // temporary value
 var stage = new Konva.Stage({
@@ -38,6 +38,8 @@ document.onload = fitStageIntoParentContainer();
 
 // =================== BACKGROUND IMAGE ===================
 var imageLayer = new Konva.Layer();
+stage.add(imageLayer);
+imageLayer.moveToBottom();
 var imageObj = new Image();
 imageObj.onload = function() {
     //first resize the stage to fit the image
@@ -53,39 +55,7 @@ imageObj.onload = function() {
         height: stageHeight
     });
     imageLayer.add(fieldImage);
-    // stage.add(imageLayer);
-    imageLayer.moveToBottom();
     fitStageIntoParentContainer();
 };
 imageObj.src = IMAGE_SRC;
-
-
-
-
-pointsLayer.moveToTop();
-var renderCycle = function() {
-    drawPath(points, pathLayer);
-    stage.draw();
-    requestAnimationFrame(renderCycle)
-};
-// renderCycle();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

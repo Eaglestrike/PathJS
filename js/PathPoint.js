@@ -1,13 +1,3 @@
-/*
-Two ways of doing it:
-
-Pixel values or feet
-Relative to the origin or absolute
-
-feet for imports
-relative to the origin for ease of use
-*/
-
 const pointsList = [];
 
 function rerenderControlPanel() {
@@ -21,7 +11,7 @@ function rerenderControlPanel() {
     pointsList.forEach(function(pathPoint) {
         containerDiv.appendChild(pathPoint.controlElement);
     });
-    window.dispatchEvent(new Event('resize'));
+    window.dispatchEvent(new Event('resize')); // update canvas size if we change 0-1 panels
 }
 
 function PathPoint(initialX, initialY, initialIndex, updateFunction) {
@@ -67,6 +57,20 @@ function PathPoint(initialX, initialY, initialIndex, updateFunction) {
         that.swapWith(this.index + 1);
     }
 
+    this.delete = function() {
+        pointsList.splice(this.index, 1);
+        this.kPoint.destroy();
+        pointsLayer.draw();
+        // re-calculate index for all above this
+        // 
+        for (var i = this.index; i < pointsList.length; i++) {
+            pointsList[i].index--;
+            pointsList[i].updateDisplayedIndex();
+        }
+        rerenderControlPanel();
+        this.updateFunction();
+    }
+
     this.updateDisplayedIndex = function() {
         this.controlElement.getElementsByClassName('point-number-display')[0].innerHTML = this.index;
     }
@@ -94,6 +98,8 @@ function PathPoint(initialX, initialY, initialIndex, updateFunction) {
         this.kPoint.position(originFeetToCanvasPixels(this));
         pointsLayer.draw();
         this.updateFunction();
+        this.x =  xtemp;
+        this.y =  ytemp;
     }
     this.updateCoordinatesFromCanvasSpace = function() {
         var coords = canvasPixelsToOriginFeet(this.kPoint.position());
@@ -116,15 +122,22 @@ function PathPoint(initialX, initialY, initialIndex, updateFunction) {
     // this.______() the `this` keyword refers to this instance, and not the DOM element that triggered the event
     this.controlElement.getElementsByClassName('button-up')[0].addEventListener("click", this.moveUp.bind(this));
     this.controlElement.getElementsByClassName('button-down')[0].addEventListener("click", this.moveDown.bind(this));
+    this.controlElement.getElementsByClassName('button-remove')[0].addEventListener("click", this.delete.bind(this));
 }
 
 var pointsLayer = new Konva.Layer();
+stage.add(pointsLayer);
 pointsLayer.moveToTop();
 
 document.getElementById("add-point").addEventListener("click", function() {
     //TODO use linear interpolation to add new point ahead of the last
-    pointsList.push(new PathPoint(5, 5, pointsList.length, drawPathWrapper));
-    pointsList[pointsList.length-1].setCoordinatesFromUserSpace;
+    if (pointsList.length > 0) {
+        var lastPt = pointsList[pointsList.length - 1]
+        pointsList.push(new PathPoint(lastPt.x + 1, lastPt.y + 1, pointsList.length, drawPathWrapper));
+    } else {
+        pointsList.push(new PathPoint(5, 5, pointsList.length, drawPathWrapper));
+    }
+    pointsList[pointsList.length-1].setCoordinatesFromUserSpace();
     pointsLayer.add(pointsList[pointsList.length - 1].kPoint);
     rerenderControlPanel();
 });
