@@ -25,7 +25,7 @@ document.getElementById('export-to-robot').addEventListener('click', function() 
     (data)
     (data)
     ...
-    finishLineVectorX,finishLineVectorY
+    finishLineNormalX,finishLineNormalY
     */
     var pointsCsv = "x,y,distanceSoFar,isEndPointInterpolation\n";
     
@@ -43,25 +43,24 @@ document.getElementById('export-to-robot').addEventListener('click', function() 
     }
 
     // end derivative + linear extension using parametric lines
-    var stopPt = pt; // capture last path point
-    var limitPt = path(numPoints - 0.0001);
-    var deltaX = stopPt[0] - limitPt[0]; // final - initial gives a vector
-    var deltaY = stopPt[1] - limitPt[1];
-    // convert to unit vector
-    var magnitude = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
-    deltaX /= magnitude;
-    deltaY /= magnitude;
+    // we know that the endpoint derivative is the same as the slope between the ultimate and penultimate points
+    var ultPoint = vectors[vectors.length-1];
+    var penultPoint = vectors[vectors.length-2];
+    var endPointUnitVector = [ultPoint[0] - penultPoint[0], ultPoint[1] - penultPoint[1]];
+    var magnitude = Math.sqrt(endPointUnitVector[0]*endPointUnitVector[0] + endPointUnitVector[1]*endPointUnitVector[1]);
+    endPointUnitVector[0] /= magnitude;
+    endPointUnitVector[1] /= magnitude;
 
     var increment = distanceSoFar / numPoints; // estimate user-specified resolution
     for (var t = increment; t <= LENGTH_LINEAR_EXTRAPOLATION_FT; t += increment) {
-        pt = [stopPt[0] + deltaX*t, stopPt[1] + deltaY*t];
+        pt = [pt[0] * endPointUnitVector[0]*t, pt[1] * endPointUnitVector[1]*t];
         distanceSoFar += Math.sqrt(
             ((pt[0] - lastPt[0]) * (pt[0] - lastPt[0])) + ((pt[1] - lastPt[1]) * (pt[1] - lastPt[1]))
         );
         pointsCsv += `${pt[0]},${pt[1]},${distanceSoFar},True\n`
         lastPt = pt;
     }
-    pointsCsv += `${deltaX},${deltaY}\n`
+    pointsCsv += `${endPointUnitVector[0]},${endPointUnitVector[1]}\n`
 
     var filename = document.getElementById('path-name-input').value || 'path';
 
