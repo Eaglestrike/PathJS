@@ -107,6 +107,20 @@ function PathPoint(initialX, initialY, initialIndex, updateFunction) {
         this.yCoordInput.value = this.y;
     }
 
+    this.style = function(hovered) {
+        if (hovered) {
+            this.controlElement.style.backgroundColor = "#bbb";
+            this.kPoint.fill("#ff5454")
+        } else {
+            this.controlElement.style.backgroundColor = "#eee";
+            this.kPoint.fill("red")
+        }
+        this.kPoint.draw();
+    }
+
+    // all event bindings here
+
+    // coordinate updates
     this.kPoint.on('dragstart dragmove dragend', (function() {this.updateCoordinatesFromCanvasSpace(); this.updateFunction();}).bind(this));
 
     this.xCoordInput = this.controlElement.getElementsByClassName('x-input')[0];
@@ -115,12 +129,17 @@ function PathPoint(initialX, initialY, initialIndex, updateFunction) {
     this.yCoordInput.value = this.y;
     this.xCoordInput.addEventListener('input', this.setCoordinatesFromUserSpace.bind(this));
     this.yCoordInput.addEventListener('input', this.setCoordinatesFromUserSpace.bind(this));
-    // bind listerners to controls
-    // the this._____.bind(this) is binding the function 'this.____' to this instnace of PathPoint, so that inside
-    // this.______() the `this` keyword refers to this instance, and not the DOM element that triggered the event
+    
+    // button controls
     this.controlElement.getElementsByClassName('button-up')[0].addEventListener("click", this.moveUp.bind(this));
     this.controlElement.getElementsByClassName('button-down')[0].addEventListener("click", this.moveDown.bind(this));
     this.controlElement.getElementsByClassName('button-remove')[0].addEventListener("click", this.delete.bind(this));
+    
+    // hover style
+    this.kPoint.on('mouseenter', (function(){this.style(true)}).bind(this));
+    this.kPoint.on('mouseleave', (function(){this.style(false)}).bind(this));
+    this.controlElement.addEventListener('mouseenter', (function(){this.style(true)}).bind(this));
+    this.controlElement.addEventListener('mouseleave', (function(){this.style(false)}).bind(this));
 }
 
 var pointsLayer = new Konva.Layer();
