@@ -47,5 +47,7 @@ body {
 
 .point-number-display {
     display: block;
-    width: 10px;
+    width: 1.3em;
+    text-align: center;
+    padding: 3px;
 }
