@@ -33,7 +33,10 @@ function fitStageIntoParentContainer() {
     stage.draw();
 }
 window.addEventListener('resize', fitStageIntoParentContainer);
-document.onload = fitStageIntoParentContainer();
+document.onload = function() {
+    fitStageIntoParentContainer();
+    resetOriginPosition();
+};
 
 
 // =================== BACKGROUND IMAGE ===================

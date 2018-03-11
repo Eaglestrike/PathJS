@@ -1,7 +1,7 @@
 var originLayer = new Konva.Layer();
 var origin = new Konva.Circle({
-    x: stage.getWidth(),
-    y: stage.getHeight(),
+    x: stageWidth / 2,
+    y: stageHeight / 2,
     radius: PIXELS_PER_FOOT / 4,
     fill: 'blue',
     stroke: 'black',
@@ -53,3 +53,12 @@ function originFeetToCanvasPixels(obj) {
     obj.y += origin.y();
     return obj;
 };
+
+function resetOriginPosition() {
+    origin.x(stageWidth / 2);
+    origin.y(stageHeight / 2);
+    updateOriginAxis();
+    originLayer.draw();
+}
+
+document.getElementById('reset-origin').addEventListener('click', resetOriginPosition);
