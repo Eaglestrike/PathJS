@@ -136,8 +136,8 @@ function PathPoint(initialX, initialY, initialIndex, updateFunction) {
     this.controlElement.getElementsByClassName('button-remove')[0].addEventListener("click", this.delete.bind(this));
     
     // hover style
-    this.kPoint.on('mouseenter', (function(){this.style(true)}).bind(this));
-    this.kPoint.on('mouseleave', (function(){this.style(false)}).bind(this));
+    this.kPoint.on('mouseenter dragstart', (function(){this.style(true)}).bind(this));
+    this.kPoint.on('mouseleave dragend', (function(){this.style(false)}).bind(this));
     this.controlElement.addEventListener('mouseenter', (function(){this.style(true)}).bind(this));
     this.controlElement.addEventListener('mouseleave', (function(){this.style(false)}).bind(this));
 }
