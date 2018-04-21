@@ -53,7 +53,7 @@ document.getElementById('export-to-robot').addEventListener('click', function() 
 
     var increment = distanceSoFar / numPoints; // estimate user-specified resolution
     for (var t = increment; t <= LENGTH_LINEAR_EXTRAPOLATION_FT; t += increment) {
-        pt = [pt[0] * endPointUnitVector[0]*t, pt[1] * endPointUnitVector[1]*t];
+        pt = [pt[0] + endPointUnitVector[0]*t, pt[1] + endPointUnitVector[1]*t];
         distanceSoFar += Math.sqrt(
             ((pt[0] - lastPt[0]) * (pt[0] - lastPt[0])) + ((pt[1] - lastPt[1]) * (pt[1] - lastPt[1]))
         );
