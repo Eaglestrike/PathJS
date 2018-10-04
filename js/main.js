@@ -1,5 +1,6 @@
 // init + cfg
-const IMAGE_WIDTH_FEET = 24;
+// field ft  * image px / field px
+const IMAGE_WIDTH_FEET = 27 * 409  / 367;
 const PIXELS_PER_FOOT = 100;
 const ROBOT_WIDTH_FEET = 4;
 const PATH_SAMPLES_PER_SEGMENT = 10;
@@ -17,10 +18,10 @@ function fitStageIntoParentContainer() {
     var container = document.getElementById('container');
     var page = document.getElementById('page');
     var panel = document.getElementById('panel');
-    
+
 
     // now we need to fit stage into parent
-    
+
     // var containerWidth = container.offsetWidth;
     // this makes dynamic resizing account for the panel because flexbox can't
     var containerWidth = page.offsetWidth - panel.offsetWidth - 1.6; // extra - because somehow there's an extra pixel (rounding I think)
@@ -61,4 +62,3 @@ imageObj.onload = function() {
     fitStageIntoParentContainer();
 };
 imageObj.src = IMAGE_SRC;
-
